@@ -1,0 +1,190 @@
+Subspace analysis is a term used to describe a general framework used in computer vision, that is used for the comparison and classification of subspaces. In this section, we introduce typical approaches in subspace analysis, in particular the classification of subspaces, and describe how it can be extended to analyse shapes such as human poses.
+
+\section{Subspace Method}
+
+The Subspace method assumes an input vector $\mathbf{x}$ and $k$-class subspaces. Each class subspace approximates a data distribution for a single class. This approximation is obtained by applying Principle Component Analysis (PCA) to each class.
+
+The similarity $S$ of the input vector $\mathbf{x}$ to the $i^{th}$ class subspace $\pazocal{Y}$ is defined based on either:
+
+\begin{itemize}
+    \item The length of the  projection of $\mathbf{x}$ to $\pazocal{Y}$ \cite{WATANABE1967EvaluationRecognition}.
+    \item The minimum angle between $\mathbf{x}$ and $\pazocal{Y}$ \cite{Iijima1973THEORYMETHOD.}.
+\end{itemize} 
+
+The length of an input vector $\mathbf{x}$ is often normalized to 1.0. In this case these two criteria are identical. 
+
+Since they are the same, from here on we think of the angle-based similarity $S$ defined by the following equation:
+
+\[S = \cos^2{\theta} = \sum^{k}_{i=1} \frac{(\mathbf{x}^\top \cdot \Phi_i)^2}{||\mathbf{x2}||^2}\]
+
+$\Phi_i$ is the $i^{th}$ orthogonal normal basis vector of the class subspace $\pazocal{Y}$, which are obtained from applying the PCA to a set of patterns of the class. In more rigorous terms, these orthonormal basis vectors can be obtained as the eigenvectors of the correlation matrix 
+
+\[\sum^{l}_{i=1}\mathbf{x}^{(i)}\mathbf{x}^{(i)\top}  \ \ where \\ \ \mathbf{x}^{(i)} \in \mathbb{X} \]
+    
+of the class ($\mathbb{X}$ is the training dataset).
+
+\textbf{Learning Phase}
+
+\begin{enumerate}
+    \item Generate $k$ class subspaces from each class by using PCA.
+\end{enumerate}
+
+\textbf{Recognition Phase}
+
+\begin{enumerate}
+    \item Calculate $S$ between $\mathbf{x}$ and each subspace $Q_i$. 
+    \item Classify the $\mathbf{x}$ into the class where $S$ was calculated to be the highest.
+\end{enumerate}
+
+\section{Mutual Subspace Method}
+
+The Mutual Subspace Method (MSM) is an extension of the Subspace Method (SM), where instead of having an input vector $\mathbf{x}$, we use an input subspace $\mathcal{P}$. MSM is commonly used for image set classification \cite{sakai2019gait}.
+
+The Subspace method assumes an input subspace and $k$ class subspaces. Let us define the input subspace to be a $d_p$-dimensional subspace $\mathcal{P}$ and the class subspaces to be $d_q$-dimensional subspaces $\{\mathcal{Q}, \mathcal{R}, \mathcal{S}...\}$.
+
+The similarity $S$ between, for example, $\mathcal{P}$ and $\mathcal{Q}$ was originally defined as the minimum canonical angle $\theta_1$. Canonical angles \cite{chatelin2012eigenvalues} are uniquely defined as:
+
+\[    \cos^2 \theta_i = \max_{\substack{u_i \perp u_j(=1,...,i−1) \\ v_i \perp v_j(=1,...,i−1)}} \frac{|(u_1,v_i)|^2}{||u_i||^2||v_i||^2}\]
+
+Where $\mathbf{u}_i \in \mathcal{P}$, $\mathbf{v}_i \in \mathcal{Q}$, $||\mathbf{u}_i|| \neq 0$, $||\mathbf{v}_i|| \neq 0$.
+
+We can also include the remaining canonical angles when calculating the similarity. 
+
+\[    \tilde{S} = \frac{1}{t} \sum^{t}_{i=1}\cos{\theta_i}^2 \]
+
+This value $\tilde{S}$ reflects the structural similarity between two subspaces. It is also defined on the $t$ smallest canonical angles. For practical applications, the canonical angles between subspaces $\pazocal{Y}_1$ and $\pazocal{Y}_2$ are obtained by calculating the singular values $\{\lambda_j\}_{j=1}^{m}$ of the correlation matrix between their basis matrices $\bm{Y}_1, \bm{Y}_2 \in \mathbb{R}^{d{\times}m}$, i.e. solving the SVD of $\bm{V}\bm{\Lambda}\bm{V}^{\top} = \bm{Y}_1^{\top}\bm{Y}_2$. This corresponds to finding the rotation of each basis that is closest to the opposing subspace. From solving this problem, the canonical angles can be obtained by $\theta_j = \cos^{-1}(\lambda_j), \text{ where } j = 1, \ldots, m$.
+
+\textbf{Learning Phase}
+
+\begin{enumerate}
+    \item Generate :math:`k` class subspaces from each class by using PCA.
+\end{enumerate}
+
+\textbf{Recognition Phase}
+
+\begin{enumerate}
+    \item Calculate :math:`S` (or :math:`\tilde{S}`) between :math:`\mathcal{P}` and each subspace :math:`\mathcal{Q}`. 
+    \item Classify :math:`\mathcal{P}` into the class where :math:`S` (or :math:`\tilde{S}`) was calculated to be the highest.
+\end{enumerate}
+
+\subsection{Shape Subspace}
+
+\subsection{Linear Discriminant Analysis}
+
+\subsection{Canonical Angles}
+
+After generating a shape subspace from a single frame, by following the process explained in the process above, we need to compute the distance between the subspaces to perform classification. The natural metric for subspaces is the similarity, obtained from the canonical angles. Accordingly, in our framework, canonical angles are used as the distance measure between two shape subspaces.
+
+The standard approach to measure the canonical angles between subspaces $\pazocal{Y}_1$ and $\pazocal{Y}_2$ is to calculate the singular values $\{\lambda_j\}_{j=1}^{m}$ of the correlation matrix between their basis matrices $\bm{Y}_1, \bm{Y}_2 \in \mathbb{R}^{d{\times}m}$, i.e. solving the SVD of $\bm{V}\bm{\Lambda}\bm{V}^{\top} = \bm{Y}_1^{\top}\bm{Y}_2$. This corresponds to finding the rotation of each basis that is closest to the opposing subspace. From solving this problem, the canonical angles can be obtained by $\theta_j = \cos^{-1}(\lambda_j), \text{ where } j = 1, \ldots, m$.
+
+% \begin{equation} \label{eq:eq6}
+% 	\theta_j = \cos^{-1}(\lambda_j), \text{ where } j = 1, \ldots, m.
+% \end{equation}
+
+\subsection{Grassmann Manifold}
+
+Now, we introduce here the concept of Grassmann manifold and how it is useful to correspond subspaces to vectors. The essence is to make a one-to-one mapping such that the similarities between subspaces is preserved, simplifying the representation and allowing general methods to be applicable.
+
+Grassmann manifold $\pazocal{G}(m, d)$ is defined as the set of $m$-dimensional linear subspaces of $\mathbb{R}^{d}$. It is an $m(d-m)$-dimensional compact Riemannian manifold and can be derived as a quotient space of orthogonal groups $\pazocal{G}(m, d) = \pazocal{O}(d)/\pazocal{O}(m) \times \pazocal{O}(d - m)$, 
+where $\pazocal{O}(m)$ is the group of $m \times m$ orthonormal matrices. 
+
+A Grassmann manifold can be embedded in a reproducing kernel Hilbert space by the use of a Grassmann kernel. In this case, the most popular kernel is the projection kernel $k_{p}$, which can be defined as $k_{p}(\pazocal{Y}_{1},\pazocal{Y}_{2}) = \sum_{j=1}^{m} \cos^{2} \theta_{j}$, which is homologous to the subspace similarity.
+%%\begin{equation}
+%%% d_{p}(\pazocal{Y}_{1},\pazocal{Y}_{2}) = \sqrt[]{\sum_{i=1}^{m} \sin^{2} \%%%theta_{i} }
+%%k_{p}(\pazocal{Y}_{1},\pazocal{Y}_{2}) = \sum_{i=1}^{m} \cos^{2} \theta_{i}.
+%%\end{equation}
+We can measure the distance between two points on a Grassmann manifold by using this projection kernel~\cite{hamm2008thesis}, and a subspace $\pazocal{Y}$ can be represented by a vector with regards to a reference subspace dictionary $\{\pazocal{Y}_{q}\}_{q=1}^{N}$ as $\bm{y} = k_{p}(\pazocal{Y},\pazocal{Y}_{q}) = [k_{p}(\pazocal{Y},\pazocal{Y}_{1}),k_{p}(\pazocal{Y},\pazocal{Y}_{2}),\ldots,k_{p}(\pazocal{Y},\pazocal{Y}_{N})] \in \mathbb{R}^{N}$.
+
+% \subsection{Algorithm of Grassmann Discriminant Analysis}
+% \label{sec:gda}
+\subsection{Grassmann Discriminant Analysis}
+
+We introduce a discriminatory mechanism to separate the classes of signals, which is the Grassmann discriminant analysis (GDA).
+Basically, GDA is conducted as kernel LDA with the Grassmann kernels. 
+%Its predecessor, linear discriminant analysis (LDA)~\cite{fukunaga1990statistical}, followed by a K-NN classifier, is well known and has been successfully used for classification.
+We first outline the algorithm of linear discriminant analysis (LDA)~\cite{fukunaga1990statistical}.
+Let ${\bm{x}_{1}, \ldots, \bm{x}_{N}}$ be the data vectors and ${y_{1}, \ldots, y_{N}}$ $(y_{i} \in {1, \ldots, C})$ be the class labels. 
+Each class $c$ has $N_{c}$ number of samples.
+Let $\bm{\mu}_{c} = \frac{1}{N_{c}}\sum_{i|y_{i} = c} \bm{x}_{i}$ be the mean of class $c$, and $\bm{\mu} = \frac{1}{N} \sum_{i} \bm{x}_{i}$ be the overall mean. LDA searches for the discriminant direction $\bm{w}$ which maximizes the Rayleigh quotient 
+$Ra(\bm{w}) = \bm{w}'\bm{S}_{b}\bm{w}/\bm{w}'\bm{S}_{w}\bm{w}$ where $\bm{S}_{b}$ and $\bm{S}_{w}$ are the between-class and within-class covariance matrices respectively:
+
+\begin{align}
+\bm{S}_{b} =& \frac{1}{N} \sum_{c=1}^{C} N_{c}(\bm{\mu}_{c} - \bm{\mu})(\bm{\mu}_{c} - \bm{\mu})^{\top},\\
+\bm{S}_{w} =& \frac{1}{N} \sum_{c=1}^{C} \sum_{i|y_{i} = c} (\bm{x}_{i} - \bm{\mu}_{c})(\bm{x}_{i} - \bm{\mu}_{c})^{\top}.
+\end{align}
+
+The optimal $\bm{w}$ is obtained from the largest eigenvector
+of $\bm{S}_{w}^{-1}\bm{S}_{b}$. Since $\bm{S}_{w}^{-1}\bm{S}_{b}$ has rank $C - 1$, there are $C - 1$ optima $\bm{W} = [ \bm{w}_{1}, \ldots, \bm{w}_{C-1} ]$.
+By projecting data onto the space spanned by $\bm{W}$, we
+achieve dimensionality reduction and feature extraction
+of data onto the most discriminant subspace.
+
+Kernel LDA~\cite{scholkopft1999fisher,baudat2000generalized,li2001constructing} can be formulated by using the kernel trick as follows. Let $\Gamma: \mathbb{R}^ {d} \rightarrow \pazocal{F}$ be a non-linear map from the input space $\mathbb{R}^ {d}$ to a feature space $\pazocal{F}$,
+and $\Gamma = [\bm{\gamma}_{1},\ldots,\bm{\gamma}_{N}]$ be the feature matrix of the mapped training points $\bm{\gamma}_{i}$. Assuming $\bm{w}$ is a linear combination of those feature vectors, $\bm{w} = \bm{\Gamma}\bm{\alpha}$, we can use the kernel trick and rewrite the Rayleigh quotient in terms of $\bm{\alpha}$ as:
+
+\begin{eqnarray}
+Ra(\bm{\alpha}) &=& \frac{\bm{\alpha}^{\top}\bm{\Gamma}^{\top}\bm{S}_{b}\bm{\Gamma} \bm{\alpha}}{\bm{\alpha}^{\top}\bm{\Gamma} ^{\top}\bm{S}_{w}\bm{\Gamma} \bm{\alpha}} = \nonumber\\ 
+&=& \frac{\bm{\alpha}^{\top}\bm{K}(\bm{V} - \bm{e}_{N}\bm{e}_{N}^{\top}/N)\bm{K}\bm{\alpha}}{\bm{\alpha}^{\top}(\bm{K}(\bm{I}_{N}-\bm{V})\bm{K}+ \sigma^{2}\bm{I}_{N})\bm{\alpha}} = \nonumber\\
+&=& \frac{\bm{\alpha}^{\top}\bm{\Sigma}_{b}\bm{\alpha}}{\bm{\alpha}^{\top}(\bm{\Sigma}_{w}+\sigma^{2}\bm{I}_{N})\bm{\alpha}},
+\end{eqnarray}
+
+%\vfill\pagebreak
+
+\noindent where $\bm{K}$ is the kernel matrix, $\bm{e}_{N}$ is a vector
+of ones that has length $N$, $\bm{V}$ is a block-diagonal matrix
+whose $c$-th block is the matrix $\bm{e}_{N_{c}}\bm{e}_{N_{c}}^{\top}/ N_{c}$, and $\bm{\Sigma}_{b}~=~\bm{K}(\bm{V} - \bm{e}_{N}\bm{e}_{N}^{\top}/N)\bm{K}$. 
+For example, the kernel matrix, $\bm{K}$, is calculated as the similarity matrix between subspaces $\bm{Y}_{q}$ and $\bm{Y}_{w}$.
+The term $\sigma^{2} \bm{I}_{N}$ is used for regularizing the covariance matrix $\bm{\Sigma}_{w} = \bm{K}(\bm{I}_{N}  -\bm{V})\bm{K}$. It is composed of the covariance shrinkage factor $\sigma^{2} > 0$, and the identity matrix $\bm{I}_{N}$ of size $N$. The set of optimal vectors $\bm{\alpha}$ are computed from the eigenvectors of $(\bm{\Sigma}_{w}+\sigma^{2}\bm{I}_{N})^{-1}\bm{\Sigma}_{b}$. 
+
+We apply the GDA algorithm to the reference subspaces $\bm{Y}_{i}^{c}$ to generate reference vectors $\bm{y}_{i}^{c}$. When given an unknown bioacoustic signal $\bm{x}_{in}(t)$, we compute its SSA subspace $\pazocal{Y}_{in}$ and map it onto the manifold to generate a vector $\bm{y}_{in}$; then we predict its corresponding bioacoustic class (e.g. species)  based on the nearest reference vector (1-NN).
+
+% \section{Time Series Classification}
+% This section includes a brief introduction to methods which are commonly used in time series classification(TSC). A general pipeline in TSC is comprised of x steps. These are 1. Pre-processing, 2. Feature Extraction, 3. Classification. In some cases such as deep learning, feature extraction and classification are performed simultaneously. 
+
+% \subsection{Pre-processing for TSC}
+
+% Here we cover 5 methods of pre-processing variable length sequences for TSC. An overview of all the methods is described in the image below.
+
+% \import{images/}{pre_processing.tex}
+% \import{images/}{pre_processing_results.tex}
+
+% Given our unbalanced dataset, there is also a need to deal with the unbalanced classes. 
+
+% \subsubsection{Truncation / Padding}
+% The most naive method to transform sequences to equal length is to either truncate or pad the sequence with dummy values. Truncation is performed by discarding the beginning or the end of the sequence to a shorter desired length. On the other hand, padding will add a dummy values to the beginning or the end of the sequence to a new longer length. The two methods can be used jointly as well. For example, say there are variable length sequences with a lengths that vary from $N$ to $M$ and we want a fixed length of $L$. We can truncate sequences with a length larger $L$ or more and pad sequences with a length less than $L$.
+
+% \subsubsection{Resampling through interpolation / Extrapolation}
+% Firstly, the difference between interpolation and extrapolation should be clarified. Interpolation is to fill gaps in between the given data points, whereas extrapolation is to predict future values from the given data points. 
+% Although there are many methods to perform interpolation and extrapolation, the physical bounds that arise from nature of the data used in this study makes the Kalman filter a fitting method. 
+
+% \subsubsection{Randomized Time Warping}
+% Randomised time warping(RTW) is a randomised extension of dynamic time warping(DTW) for motion recognition\cite{suryanto2016randomized}. RTW generates time elastic (TE) features by randomly sampling the sequential data while retaining the temporal information. A set of TE features is represented by a low-dimensional subspace, called the sequence hypothesis (Hypo) subspace, and the similarity between two sequential patterns is defined by the canonical angles between the two corresponding Hypo subspaces. In essence, RTW simultaneously computes multiple degrees of similarities between a number of warped patterns’ pair candidates, while in practice, RTW generalizes the Hankel matrix commonly used in modeling of system dynamics. 
+
+% % \subsubsection{Symbolic Aggregate Approximation}
+% % Symbolic Aggregate approximation (SAX) is a classical symbolic approach for time series data mining, the basic concept of which is to convert the numerical form of a time series into a sequence of discrete symbols according to designated mapping rules. SAX can reduce dimensionality/ numerosity of data and has a lower bound to the Euclidean distance, that is, the error between the distance in the SAX representation and the Euclidean distance in the original data is bounded.
+
+% \subsubsection{Under-Bagging}
+% Diversity Exploration and Negative Correlation Learning on Imbalanced Data Sets.
+
+% \subsection{Feature Extraction for TSC}
+
+% \subsection{classification for TSC}
+% One of the most popular and traditional TSC approaches is the use of a nearest neighbor (NN) classifier coupled with a distance function \cite{bagnall2017great}. Particularly, the Dynamic Time Warping (DTW) distance when used with a NN classifier has been shown to be a very strong baseline\cite{lines2015time}.
+
+% \subsubsection{K-Nearest Neighbors + Dynamic Time Warping}
+
+% \subsubsection{Hierarchical Vote Collective of Transformation-based Ensembles}
+
+% \subsubsection{Time Warped ARMA models}
+
+% \subsubsection{Enhanced Grassmann Discriminant Analysis with Randomized Time Warping}
+
+% \subsubsection{Graph Convolutional Networks}
+
+% An Attention Enhanced Graph Convolutional LSTM Network for Skeleton-Based Action Recognition
+% Spatial Temporal Graph Convolutional Networks for Skeleton-Based Action Recognition
+
+% \subsection{Subspace Based Methods}
+
+
+% \section{Actionable Intelligence}

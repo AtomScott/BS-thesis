@@ -1,0 +1,142 @@
+b%%
+% このファイルは筑波大学情報学群情報科学類の卒業研究論文のサンプルです。
+% このファイルを書き換えて、このサンプルと同様の書式の論文をLaTeXを使って
+% 作成できます。
+% 
+% OSやLaTeXの設定によっては漢字コードや改行コードを変更する必要があります。
+%%
+\documentclass[a4paper,11pt]{report}
+
+%%【PDF, PostScript, JPEG, PNG等の画像の貼り込み】
+%% dvipdfmx を使う場合
+\usepackage[dvipdfmx]{graphicx}
+%% dvipdfmx を使ってPDFの「しおり」を付ける場合
+%%\usepackage[dvipdfmx,bookmarks=true,bookmarksnumbered=true,bookmarkstype=toc]{hyperref} \usepackage{pxjahyper}
+
+\usepackage{times} % use Times font instead of default one
+\usepackage{import}
+\usepackage{booktabs}
+\usepackage{algorithm,algorithmic,refcount}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage[toc,page]{appendix}
+\usepackage{multicol}
+\setcounter{tocdepth}{3}
+\setcounter{page}{-1}
+
+\usepackage{graphicx}
+\usepackage{bm} % Bold Letters and such
+\usepackage{calrsfs} % Calligraphic Letters
+\usepackage{amsfonts} % Set Letters (is in Reals, Naturals)
+\usepackage{xcolor}
+
+
+% Example definitions.
+% --------------------
+\def\x{{\mathbf x}}
+\def\L{{\cal L}}
+\DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\pred}{pred}
+
+
+\setlength{\oddsidemargin}{0.1in}
+\setlength{\evensidemargin}{0.1in} 
+\setlength{\topmargin}{0in}
+\setlength{\textwidth}{6in} 
+%\setlength{\textheight}{10.1in}
+\setlength{\parskip}{0em}
+\setlength{\topsep}{0em}
+
+%% タイトル生成用パッケージ（重要）
+\usepackage{coins-jp}
+
+%% タイトル
+%% 【注意】タイトルの最後に\\ を入れるとエラーになります
+\title{3次元姿勢の時系列データ\\
+に基づく片足跳躍動作の解析}
+%% 著者
+\author{スコット アトム}
+%% 指導教員
+\advisor{福井 和広}
+
+%% 年度と主専攻名
+\fiscalyear{2019}
+\majorfield{ソフトウェアサイエンス主専攻}
+% \majorfield{情報システム主専攻}
+%\majorfield{知能情報メディア主専攻}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\newpage
+
+\thispagestyle{empty}
+\vspace*{20pt plus 1fil}
+\parindent=1zw
+\noindent
+%%
+%% 論文の要旨
+%%
+\begin{center}
+{\Large \bf Abstract}
+\vspace{2cm}
+\end{center}
+
+\import{sections/}{0-abstract.tex}
+%%%%%
+\par
+\vspace{0pt plus 1fil}
+\newpage
+
+% \renewcommand{\listfigurename}{Figures}
+% \renewcommand{\listtablename}{Tables}
+\pagenumbering{roman} % I, II, III, IV 
+\tableofcontents
+\listoffigures
+\listoftables
+
+\pagebreak \setcounter{page}{1}
+\pagenumbering{arabic} % 1,2,3
+
+\chapter{Introduction}
+\import{sections/}{1-introduction.tex}
+
+\chapter{Sensorimotor Performance Indicators}
+\import{sections/}{2-0-SLDJ.tex}
+
+\chapter{Subspace Based Classification}
+\import{sections/}{2-1-subspace.tex}
+
+\chapter{Proposed Method}
+\import{sections/}{3-proposal.tex}
+
+\chapter{Experiments}
+\import{sections/}{4-experiments.tex}
+
+\chapter{Discussion}
+\import{sections/}{5-discussion.tex}
+
+\chapter{Conclusion}
+\import{sections/}{6-conclusion.tex}
+
+\begin{appendices}
+\import{sections/}{7-appendix.tex}
+\end{appendices}
+
+\chapter*{Acknowledgements}
+\addcontentsline{toc}{chapter}{\numberline{}Acknowledgements}
+\import{sections/}{8-acknowledgements.tex}
+
+\newpage
+
+\addcontentsline{toc}{chapter}{\numberline{}References}
+\renewcommand{\bibname}{References}
+
+%% 参考文献に jbibtex を使う場合
+\bibliographystyle{junsrt}
+\bibliography{references}
+% [compile] jbibtex sample; platex sample; platex sample;
+
+\end{document}
