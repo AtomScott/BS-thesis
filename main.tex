@@ -1,17 +1,21 @@
-b%%
+%%
 % このファイルは筑波大学情報学群情報科学類の卒業研究論文のサンプルです。
 % このファイルを書き換えて、このサンプルと同様の書式の論文をLaTeXを使って
 % 作成できます。
 % 
 % OSやLaTeXの設定によっては漢字コードや改行コードを変更する必要があります。
 %%
+% \documentclass{ltjsarticle} % jsarticle
+% \documentclass{ltjsbook}    % jsboo
 \documentclass[a4paper,11pt]{report}
+\usepackage{luatexja-fontspec}
 
 %%【PDF, PostScript, JPEG, PNG等の画像の貼り込み】
 %% dvipdfmx を使う場合
 \usepackage[dvipdfmx]{graphicx}
 %% dvipdfmx を使ってPDFの「しおり」を付ける場合
-%%\usepackage[dvipdfmx,bookmarks=true,bookmarksnumbered=true,bookmarkstype=toc]{hyperref} \usepackage{pxjahyper}
+\usepackage[dvipdfmx,bookmarks=true,bookmarksnumbered=true,bookmarkstype=toc]{hyperref}
+\usepackage{pxjahyper}
 
 \usepackage{times} % use Times font instead of default one
 \usepackage{import}
@@ -54,34 +58,34 @@ b%%
 
 %% タイトル
 %% 【注意】タイトルの最後に\\ を入れるとエラーになります
-\title{3次元姿勢の時系列データ\\
-に基づく片足跳躍動作の解析}
+\title{Analysis of Sports Movements Based on Time-Series Pose Data \\ (時系列姿勢データに基づくスポーツ動作の解析)}
 %% 著者
 \author{スコット アトム}
 %% 指導教員
 \advisor{福井 和広}
 
 %% 年度と主専攻名
-\fiscalyear{2019}
+\fiscalyear{2020}
 \majorfield{ソフトウェアサイエンス主専攻}
 % \majorfield{情報システム主専攻}
 %\majorfield{知能情報メディア主専攻}
 
 \begin{document}
+
 \maketitle
 \thispagestyle{empty}
 \newpage
 
 \thispagestyle{empty}
 \vspace*{20pt plus 1fil}
-\parindent=1zw
+\parindent=1
 \noindent
 %%
 %% 論文の要旨
 %%
 \begin{center}
-{\Large \bf Abstract}
-\vspace{2cm}
+  {\Large \bf Abstract}
+  \vspace{2cm}
 \end{center}
 
 \import{sections/}{0-abstract.tex}
@@ -122,7 +126,7 @@ b%%
 \import{sections/}{6-conclusion.tex}
 
 \begin{appendices}
-\import{sections/}{7-appendix.tex}
+  \import{sections/}{7-appendix.tex}
 \end{appendices}
 
 \chapter*{Acknowledgements}
