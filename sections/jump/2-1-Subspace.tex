@@ -21,7 +21,7 @@ $\Phi_i$ is the $i^{th}$ orthogonal normal basis vector of the class subspace $\
 
 \[\sum^{l}_{i=1}\mathbf{x}^{(i)}\mathbf{x}^{(i)\top}  \ \ where \\ \ \mathbf{x}^{(i)} \in \mathbb{X} \]
 
-\noident of the class ($\mathbb{X}$ is the training dataset).
+\noindent of the class ($\mathbb{X}$ is the training dataset).
 
 {\setlength{\parindent}{0cm} \vspace{5mm}
 
@@ -58,7 +58,7 @@ We can also include the remaining canonical angles when calculating the similari
 
 \[    \tilde{S} = \frac{1}{t} \sum^{t}_{i=1}\cos{\theta_i}^2 \]
 
-This value $\tilde{S}$ reflects the structural similarity between two subspaces. It is also defined on the $t$ smallest canonical angles. For practical applications, the canonical angles between subspaces $\pazocal{P}_1$ and $\pazocal{Q}$ are obtained by calculating the singular values $\{\lambda_j\}_{j=1}^{m}$ of the correlation matrix between their basis matrices $\bm{P}, \bm{Q} \in \mathbb{R}^{d{\times}m}$, i.e. solving the SVD of $\bm{V}\bm{\Lambda}\bm{V}^{\top} = \bm{P}^{\top}\bm{Q}$. This corresponds to finding the rotation of each basis that is closest to the opposing subspace. From solving this problem, the canonical angles can be obtained by $\theta_j = \cos^{-1}(\lambda_j), \text{ where } j = 1, \ldots, m$.
+This value $\tilde{S}$ reflects the structural similarity between two subspaces. It is also defined on the $t$ smallest canonical angles. For practical applications, the canonical angles between subspaces $\pazocal{P}_1$ and $\pazocal{Q}$ are obtained by calculating the singular values $\{\lambda_j\}_{j=1}^{m}$ of the correlation matrix between their basis matrices $\mathbf{P}, \mathbf{Q} \in \mathbb{R}^{d{\times}m}$, i.e. solving the SVD of $\mathbf{V}\mathbf{\Lambda}\mathbf{V}^{\top} = \mathbf{P}^{\top}\mathbf{Q}$. This corresponds to finding the rotation of each basis that is closest to the opposing subspace. From solving this problem, the canonical angles can be obtained by $\theta_j = \cos^{-1}(\lambda_j), \text{ where } j = 1, \ldots, m$.
 
 {\setlength{\parindent}{0cm} \vspace{5mm}
 
@@ -94,7 +94,7 @@ A Grassmann manifold can be embedded in a reproducing kernel Hilbert space by th
 %%% d_{p}(\pazocal{Y}_{1},\pazocal{Y}_{2}) = \sqrt[]{\sum_{i=1}^{m} \sin^{2} \%%%theta_{i} }
 %%k_{p}(\pazocal{Y}_{1},\pazocal{Y}_{2}) = \sum_{i=1}^{m} \cos^{2} \theta_{i}.
 %%\end{equation}
-We can measure the distance between two points on a Grassmann manifold by using this projection kernel~\cite{hamm2008thesis}, and a subspace $\pazocal{Y}$ can be represented by a vector with regards to a reference subspace dictionary $\{\pazocal{Y}_{q}\}_{q=1}^{N}$ as $\bm{y} = k_{p}(\pazocal{Y},\pazocal{Y}_{q}) = [k_{p}(\pazocal{Y},\pazocal{Y}_{1}),k_{p}(\pazocal{Y},\pazocal{Y}_{2}),\ldots,k_{p}(\pazocal{Y},\pazocal{Y}_{N})] \in \mathbb{R}^{N}$.
+We can measure the distance between two points on a Grassmann manifold by using this projection kernel~\cite{hamm2008thesis}, and a subspace $\pazocal{Y}$ can be represented by a vector with regards to a reference subspace dictionary $\{\pazocal{Y}_{q}\}_{q=1}^{N}$ as $\mathbf{y} = k_{p}(\pazocal{Y},\pazocal{Y}_{q}) = [k_{p}(\pazocal{Y},\pazocal{Y}_{1}),k_{p}(\pazocal{Y},\pazocal{Y}_{2}),\ldots,k_{p}(\pazocal{Y},\pazocal{Y}_{N})] \in \mathbb{R}^{N}$.
 
 % \subsection{Algorithm of Grassmann Discriminant Analysis}
 % \label{sec:gda}
@@ -103,40 +103,40 @@ We introduce a discriminatory mechanism to separate the classes of signals, whic
 Basically, GDA is conducted as kernel LDA with the Grassmann kernels.
 %Its predecessor, linear discriminant analysis (LDA)~\cite{fukunaga1990statistical}, followed by a K-NN classifier, is well known and has been successfully used for classification.
 We first outline the algorithm of linear discriminant analysis (LDA)~\cite{fukunaga1990statistical}.
-Let ${\bm{x}_{1}, \ldots, \bm{x}_{N}}$ be the data vectors and ${y_{1}, \ldots, y_{N}}$ $(y_{i} \in {1, \ldots, C})$ be the class labels.
+Let ${\mathbf{x}_{1}, \ldots, \mathbf{x}_{N}}$ be the data vectors and ${y_{1}, \ldots, y_{N}}$ $(y_{i} \in {1, \ldots, C})$ be the class labels.
 Each class $c$ has $N_{c}$ number of samples.
-Let $\bm{\mu}_{c} = \frac{1}{N_{c}}\sum_{i|y_{i} = c} \bm{x}_{i}$ be the mean of class $c$, and $\bm{\mu} = \frac{1}{N} \sum_{i} \bm{x}_{i}$ be the overall mean. LDA searches for the discriminant direction $\bm{w}$ which maximizes the Rayleigh quotient
-$Ra(\bm{w}) = \bm{w}'\bm{S}_{b}\bm{w}/\bm{w}'\bm{S}_{w}\bm{w}$ where $\bm{S}_{b}$ and $\bm{S}_{w}$ are the between-class and within-class covariance matrices respectively:
+Let $\mathbf{\mu}_{c} = \frac{1}{N_{c}}\sum_{i|y_{i} = c} \mathbf{x}_{i}$ be the mean of class $c$, and $\mathbf{\mu} = \frac{1}{N} \sum_{i} \mathbf{x}_{i}$ be the overall mean. LDA searches for the discriminant direction $\mathbf{w}$ which maximizes the Rayleigh quotient
+$Ra(\mathbf{w}) = \mathbf{w}'\mathbf{S}_{b}\mathbf{w}/\mathbf{w}'\mathbf{S}_{w}\mathbf{w}$ where $\mathbf{S}_{b}$ and $\mathbf{S}_{w}$ are the between-class and within-class covariance matrices respectively:
 
-\begin{align}
-    \bm{S}_{b} = & \frac{1}{N} \sum_{c=1}^{C} N_{c}(\bm{\mu}_{c} - \bm{\mu})(\bm{\mu}_{c} - \bm{\mu})^{\top},                   \\
-    \bm{S}_{w} = & \frac{1}{N} \sum_{c=1}^{C} \sum_{i|y_{i} = c} (\bm{x}_{i} - \bm{\mu}_{c})(\bm{x}_{i} - \bm{\mu}_{c})^{\top}.
-\end{align}
+% \begin{align}
+%     \mathbf{S}_{b} = & \frac{1}{N} \sum_{c=1}^{C} N_{c}(\mathbf{\mu}_{c} - \mathbf{\mu})(\mathbf{\mu}_{c} - \mathbf{\mu})^{\top},                   \\
+%     \mathbf{S}_{w} = & \frac{1}{N} \sum_{c=1}^{C} \sum_{i|y_{i} = c} (\mathbf{x}_{i} - \mathbf{\mu}_{c})(\mathbf{x}_{i} - \mathbf{\mu}_{c})^{\top}.
+% \end{align}
 
-The optimal $\bm{w}$ is obtained from the largest eigenvector
-of $\bm{S}_{w}^{-1}\bm{S}_{b}$. Since $\bm{S}_{w}^{-1}\bm{S}_{b}$ has rank $C - 1$, there are $C - 1$ optima $\bm{W} = [ \bm{w}_{1}, \ldots, \bm{w}_{C-1} ]$.
-By projecting data onto the space spanned by $\bm{W}$, we
+The optimal $\mathbf{w}$ is obtained from the largest eigenvector
+of $\mathbf{S}_{w}^{-1}\mathbf{S}_{b}$. Since $\mathbf{S}_{w}^{-1}\mathbf{S}_{b}$ has rank $C - 1$, there are $C - 1$ optima $\mathbf{W} = [ \mathbf{w}_{1}, \ldots, \mathbf{w}_{C-1} ]$.
+By projecting data onto the space spanned by $\mathbf{W}$, we
 achieve dimensionality reduction and feature extraction
 of data onto the most discriminant subspace.
 
 Kernel LDA~\cite{scholkopft1999fisher,baudat2000generalized,li2001constructing} can be formulated by using the kernel trick as follows. Let $\Gamma: \mathbb{R}^ {d} \rightarrow \pazocal{F}$ be a non-linear map from the input space $\mathbb{R}^ {d}$ to a feature space $\pazocal{F}$,
-and $\Gamma = [\bm{\gamma}_{1},\ldots,\bm{\gamma}_{N}]$ be the feature matrix of the mapped training points $\bm{\gamma}_{i}$. Assuming $\bm{w}$ is a linear combination of those feature vectors, $\bm{w} = \bm{\Gamma}\bm{\alpha}$, we can use the kernel trick and rewrite the Rayleigh quotient in terms of $\bm{\alpha}$ as:
+and $\Gamma = [\mathbf{\gamma}_{1},\ldots,\mathbf{\gamma}_{N}]$ be the feature matrix of the mapped training points $\mathbf{\gamma}_{i}$. Assuming $\mathbf{w}$ is a linear combination of those feature vectors, $\mathbf{w} = \mathbf{\Gamma}\mathbf{\alpha}$, we can use the kernel trick and rewrite the Rayleigh quotient in terms of $\mathbf{\alpha}$ as:
 
 \begin{eqnarray}
-    Ra(\bm{\alpha}) &=& \frac{\bm{\alpha}^{\top}\bm{\Gamma}^{\top}\bm{S}_{b}\bm{\Gamma} \bm{\alpha}}{\bm{\alpha}^{\top}\bm{\Gamma} ^{\top}\bm{S}_{w}\bm{\Gamma} \bm{\alpha}} = \nonumber\\
-    &=& \frac{\bm{\alpha}^{\top}\bm{K}(\bm{V} - \bm{e}_{N}\bm{e}_{N}^{\top}/N)\bm{K}\bm{\alpha}}{\bm{\alpha}^{\top}(\bm{K}(\bm{I}_{N}-\bm{V})\bm{K}+ \sigma^{2}\bm{I}_{N})\bm{\alpha}} = \nonumber\\
-    &=& \frac{\bm{\alpha}^{\top}\bm{\Sigma}_{b}\bm{\alpha}}{\bm{\alpha}^{\top}(\bm{\Sigma}_{w}+\sigma^{2}\bm{I}_{N})\bm{\alpha}},
+    Ra(\mathbf{\alpha}) &=& \frac{\mathbf{\alpha}^{\top}\mathbf{\Gamma}^{\top}\mathbf{S}_{b}\mathbf{\Gamma} \mathbf{\alpha}}{\mathbf{\alpha}^{\top}\mathbf{\Gamma} ^{\top}\mathbf{S}_{w}\mathbf{\Gamma} \mathbf{\alpha}} = \nonumber\\
+    &=& \frac{\mathbf{\alpha}^{\top}\mathbf{K}(\mathbf{V} - \mathbf{e}_{N}\mathbf{e}_{N}^{\top}/N)\mathbf{K}\mathbf{\alpha}}{\mathbf{\alpha}^{\top}(\mathbf{K}(\mathbf{I}_{N}-\mathbf{V})\mathbf{K}+ \sigma^{2}\mathbf{I}_{N})\mathbf{\alpha}} = \nonumber\\
+    &=& \frac{\mathbf{\alpha}^{\top}\mathbf{\Sigma}_{b}\mathbf{\alpha}}{\mathbf{\alpha}^{\top}(\mathbf{\Sigma}_{w}+\sigma^{2}\mathbf{I}_{N})\mathbf{\alpha}},
 \end{eqnarray}
 
 %\vfill\pagebreak
 
-\noindent where $\bm{K}$ is the kernel matrix, $\bm{e}_{N}$ is a vector
-of ones that has length $N$, $\bm{V}$ is a block-diagonal matrix
-whose $c$-th block is the matrix $\bm{e}_{N_{c}}\bm{e}_{N_{c}}^{\top}/ N_{c}$, and $\bm{\Sigma}_{b}~=~\bm{K}(\bm{V} - \bm{e}_{N}\bm{e}_{N}^{\top}/N)\bm{K}$.
-For example, the kernel matrix, $\bm{K}$, is calculated as the similarity matrix between subspaces $\bm{Y}_{q}$ and $\bm{Y}_{w}$.
-The term $\sigma^{2} \bm{I}_{N}$ is used for regularizing the covariance matrix $\bm{\Sigma}_{w} = \bm{K}(\bm{I}_{N}  -\bm{V})\bm{K}$. It is composed of the covariance shrinkage factor $\sigma^{2} > 0$, and the identity matrix $\bm{I}_{N}$ of size $N$. The set of optimal vectors $\bm{\alpha}$ are computed from the eigenvectors of $(\bm{\Sigma}_{w}+\sigma^{2}\bm{I}_{N})^{-1}\bm{\Sigma}_{b}$.
+\noindent where $\mathbf{K}$ is the kernel matrix, $\mathbf{e}_{N}$ is a vector
+of ones that has length $N$, $\mathbf{V}$ is a block-diagonal matrix
+whose $c$-th block is the matrix $\mathbf{e}_{N_{c}}\mathbf{e}_{N_{c}}^{\top}/ N_{c}$, and $\mathbf{\Sigma}_{b}~=~\mathbf{K}(\mathbf{V} - \mathbf{e}_{N}\mathbf{e}_{N}^{\top}/N)\mathbf{K}$.
+For example, the kernel matrix, $\mathbf{K}$, is calculated as the similarity matrix between subspaces $\mathbf{Y}_{q}$ and $\mathbf{Y}_{w}$.
+The term $\sigma^{2} \mathbf{I}_{N}$ is used for regularizing the covariance matrix $\mathbf{\Sigma}_{w} = \mathbf{K}(\mathbf{I}_{N}  -\mathbf{V})\mathbf{K}$. It is composed of the covariance shrinkage factor $\sigma^{2} > 0$, and the identity matrix $\mathbf{I}_{N}$ of size $N$. The set of optimal vectors $\mathbf{\alpha}$ are computed from the eigenvectors of $(\mathbf{\Sigma}_{w}+\sigma^{2}\mathbf{I}_{N})^{-1}\mathbf{\Sigma}_{b}$.
 
-We apply the GDA algorithm to the reference subspaces $\bm{Y}_{i}^{c}$ to generate reference vectors $\bm{y}_{i}^{c}$. When given an unknown bioacoustic signal $\bm{x}_{in}(t)$, we compute its SSA subspace $\pazocal{Y}_{in}$ and map it onto the manifold to generate a vector $\bm{y}_{in}$; then we predict its corresponding bioacoustic class (e.g. species)  based on the nearest reference vector (1-NN).
+We apply the GDA algorithm to the reference subspaces $\mathbf{Y}_{i}^{c}$ to generate reference vectors $\mathbf{y}_{i}^{c}$. When given an unknown bioacoustic signal $\mathbf{x}_{in}(t)$, we compute its SSA subspace $\pazocal{Y}_{in}$ and map it onto the manifold to generate a vector $\mathbf{y}_{in}$; then we predict its corresponding bioacoustic class (e.g. species)  based on the nearest reference vector (1-NN).
 
 % \section{Time Series Classification}
 % This section includes a brief introduction to methods which are commonly used in time series classification(TSC). A general pipeline in TSC is comprised of x steps. These are 1. Pre-processing, 2. Feature Extraction, 3. Classification. In some cases such as deep learning, feature extraction and classification are performed simultaneously. 

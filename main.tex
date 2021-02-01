@@ -5,24 +5,31 @@
 % 
 % OSやLaTeXの設定によっては漢字コードや改行コードを変更する必要があります。
 %%
-% \documentclass{ltjsarticle} % jsarticle
-% \documentclass{ltjsbook}    % jsboo
+
 \documentclass[a4paper,11pt]{report}
-\usepackage{luatexja-fontspec}
+
+%===============================
+% Fonts
+%===============================
+\usepackage{luatexja-fontspec} % Necessary for package to use Japanese in lualatex
+\usepackage{amsfonts}
+
+%===============================
+% Mathematics
+%===============================
+\usepackage{algorithm, algorithmic}
+\usepackage{amsmath}
 
 %%【PDF, PostScript, JPEG, PNG等の画像の貼り込み】
 %% dvipdfmx を使う場合
-\usepackage[dvipdfmx]{graphicx}
+% \usepackage[dvipdfmx]{graphicx}
 %% dvipdfmx を使ってPDFの「しおり」を付ける場合
-\usepackage[dvipdfmx,bookmarks=true,bookmarksnumbered=true,bookmarkstype=toc]{hyperref}
-\usepackage{pxjahyper}
+% \usepackage[dvipdfmx,bookmarks=true,bookmarksnumbered=true,bookmarkstype=toc]{hyperref}
+\usepackage{hyperref}
 \usepackage{ulem}
-\usepackage{times} % use Times font instead of default one
 \usepackage{import}
 \usepackage{booktabs}
 \usepackage{algorithm,algorithmic,refcount}
-% \usepackage{amsfonts}
-% \usepackage{amsmath}
 \usepackage{calrsfs} % Calligraphic Letters
 \usepackage{xcolor}
 \usepackage{graphicx}
@@ -31,6 +38,11 @@
 \usepackage[toc,page]{appendix}
 \usepackage{multicol}
 \usepackage{newtxtext}
+
+% \usepackage{times} % use Times font instead of default one
+% \usepackage{pxjahyper}
+% \usepackage{amsfonts}
+% \usepackage{amsmath}
 \setcounter{tocdepth}{3}
 \setcounter{page}{-1}
 
