@@ -16,33 +16,42 @@
 %% dvipdfmx を使ってPDFの「しおり」を付ける場合
 \usepackage[dvipdfmx,bookmarks=true,bookmarksnumbered=true,bookmarkstype=toc]{hyperref}
 \usepackage{pxjahyper}
-
+\usepackage{ulem}
 \usepackage{times} % use Times font instead of default one
 \usepackage{import}
 \usepackage{booktabs}
 \usepackage{algorithm,algorithmic,refcount}
-\usepackage{amsfonts}
-\usepackage{amsmath}
+% \usepackage{amsfonts}
+% \usepackage{amsmath}
+\usepackage{calrsfs} % Calligraphic Letters
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{subfig}
 \usepackage{enumitem}
 \usepackage[toc,page]{appendix}
 \usepackage{multicol}
+\usepackage{newtxtext}
 \setcounter{tocdepth}{3}
 \setcounter{page}{-1}
 
-\usepackage{graphicx}
-\usepackage{bm} % Bold Letters and such
-\usepackage{calrsfs} % Calligraphic Letters
-\usepackage{amsfonts} % Set Letters (is in Reals, Naturals)
-\usepackage{xcolor}
+% \usepackage{bm} % Bold Letters and such
+% \documentclass[10pt,twocolumn]{revtex4}
+% \usepackage[a4paper,margin=1.85cm]{geometry}  
+
+% \usepackage{fontspec} % optional
+
+% Add page break after section
+\let\oldsection\section
+\renewcommand\section{\clearpage\oldsection}
 
 
 % Example definitions.
 % --------------------
-\def\x{{\mathbf x}}
-\def\L{{\cal L}}
+% \def\x{{\mathbf x}}
+% \def\L{{\cal L}}
 \DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
-\DeclareMathOperator{\diag}{diag}
-\DeclareMathOperator{\pred}{pred}
+% \DeclareMathOperator{\diag}{diag}
+% \DeclareMathOperator{\pred}{pred}
 
 
 \setlength{\oddsidemargin}{0.1in}
@@ -50,7 +59,7 @@
 \setlength{\topmargin}{0in}
 \setlength{\textwidth}{6in} 
 %\setlength{\textheight}{10.1in}
-\setlength{\parskip}{0em}
+% \setlength{\parskip}{0em}
 \setlength{\topsep}{0em}
 
 %% タイトル生成用パッケージ（重要）
@@ -58,7 +67,7 @@
 
 %% タイトル
 %% 【注意】タイトルの最後に\\ を入れるとエラーになります
-\title{Analysis of Sports Movements Based on Time-Series Pose Data \\ (時系列姿勢データに基づくスポーツ動作の解析)}
+\title{Analysis of Sports Movements Based on \\Time-Series Pose Data \\ (時系列姿勢データに基づくスポーツ動作の解析)}
 %% 著者
 \author{スコット アトム}
 %% 指導教員
@@ -76,16 +85,17 @@
 \thispagestyle{empty}
 \newpage
 
-\thispagestyle{empty}
-\vspace*{20pt plus 1fil}
-\parindent=1
-\noindent
+% \thispagestyle{empty}
+% \vspace*{20pt plus 1fil}
+% \parindent=1
+% \noindent
 %%
 %% 論文の要旨
 %%
 \begin{center}
-  {\Large \bf Abstract}
-  \vspace{2cm}
+	\thispagestyle{empty}
+	{\Large \bf Abstract}
+	\vspace{2cm}
 \end{center}
 
 \import{sections/}{0-abstract.tex}
@@ -104,29 +114,56 @@
 \pagebreak \setcounter{page}{1}
 \pagenumbering{arabic} % 1,2,3
 
-\chapter{Introduction}
-\import{sections/}{1-introduction.tex}
+% \chapter{Introduction}
+% \import{sections/fencing/}{1-introduction.tex}
 
-\chapter{Sensorimotor Performance Indicators}
-\import{sections/}{2-0-SLDJ.tex}
+% =================================================================
+% ! Part 1
+% =================================================================
 
-\chapter{Subspace Based Classification}
-\import{sections/}{2-1-subspace.tex}
+\chapter{Analysis of Single-Legged Jumping Motion Based on 3D Time-Series Pose Data}
+%! NO HEADER FOR INTRODUCTION
+\import {sections/jump/}{1-introduction.tex}
 
-\chapter{Proposed Method}
-\import{sections/}{3-proposal.tex}
+\section{Sensorimotor Performance Indictors}
+\import{sections/jump/}{2-0-SLDJ.tex}
 
-\chapter{Experiments}
-\import{sections/}{4-experiments.tex}
+\section{Subspace Based Classification}
+\import{sections/jump/}{2-1-subspace.tex}
 
-\chapter{Discussion}
-\import{sections/}{5-discussion.tex}
+\section{Proposed Method}
+\import{sections/jump/}{3-proposal.tex}
+
+\section{Experiments}
+\import{sections/jump/}{4-experiments.tex}
+
+\section{Discussion}
+\import{sections/jump/}{5-discussion.tex}
+
+% =================================================================
+% ! Part 2
+% =================================================================
+\chapter{Development of an Analysis Framework for Fencing Based on 2D/3D Time-Series Pose Data}
+% NO HEADER FOR INTRODUCTION
+\import{sections/fencing/}{1-introduction.tex}
+
+\section{Analytical Frameworks in Fencing}
+\import{sections/fencing/}{2-prior-work.tex}
+
+\section{Proposed Method}
+\import{sections/fencing/}{3-proposal.tex}
+
+\section{Experiments}
+\import{sections/fencing/}{4-experiments.tex}
+
+\section{Discussion}
+\import{sections/fencing/}{5-discussion.tex}
 
 \chapter{Conclusion}
 \import{sections/}{6-conclusion.tex}
 
 \begin{appendices}
-  \import{sections/}{7-appendix.tex}
+	\import{sections/}{7-appendix.tex}
 \end{appendices}
 
 \chapter*{Acknowledgements}
