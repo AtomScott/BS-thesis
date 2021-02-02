@@ -1,6 +1,13 @@
 Subspace analysis is a term used to describe a general framework used in computer vision, that is used for the comparison and classification of subspaces. In this section, we introduce typical approaches in subspace analysis, in particular the classification of subspaces, and describe how it can be extended to analyse shapes such as human poses.
 
 \subsection{Shape Subspace}
+
+Given a matrix $X \in \mathbb{R}^{n \times 3}$ where each row represents a three-dimensional coordinate of some shape, in this case a point on the human body, we can generate a shape matrix by translating the coordinate system so the each coordinate is relative to center, i.e the root, of the shape\cite{Igarashi20113DSubspaces}.  
+
+The columns that a shape matrix spans is called a shape subspace. A shape subspace is invariant under affine projection. It is also invariant to changes of coordinates caused by camera rotation and object motions. This characteristic of the shape subspace has made it effective in various tasks, such as motion segmentation and sequential factorization. Since shape subspace is invariant to affine projection, a subspace similarity metric, such as canonical angles, can effectively represent the geometrical relation between two shape subspaces. 
+
+The following methods (subspace method, mutual space method, Grassmann Discriminant Analysis etc.) are used to classify subspaces. Thus they can be applied to shape subspaces without any modification.
+
 \newpage
 %*================================================================
 
@@ -79,15 +86,35 @@ This value $\tilde{S}$ reflects the structural similarity between two subspaces.
 %*================================================================
 
 \subsection{Grassmann Discriminant Analysis}
+Next, we introduce here the concept Grassman Discriminant Analysis(GDA)\cite{Hamm2008GrassmannLearning} which is a discriminatory mechanism to separate classes of signals. First we will, briefly explain its predecessor, Linear Discriminant Analysis (LDA)~\cite{fukunaga1990statistical}. LDA is a dimensionality reduction technique that is is well known and has been successfully used for classification. In essence, GDA is conducted as kernel LDA but with the Grassmann kernels.
 
-\subsection{Linear Discriminant Analysis}
+\subsubsection{Linear Discriminant Analysis}
+The goal of Linear Discriminant Analysis (LDA) is to project a dataset onto a lower-dimensional space that has good class-separability. Due to the curse of dimensionality, dimensionality reduction is an simport step that is necessary in order avoid overfitting. It also has the added benefit of reducing computational costs.
 
-\subsection{Grassmann Manifold}
+{\setlength{\parindent}{0cm} \vspace{5mm}
 
-Now, we introduce here the concept of Grassmann manifold and how it is useful to correspond subspaces to vectors. The essence is to make a one-to-one mapping such that the similarities between subspaces is preserved, simplifying the representation and allowing general methods to be applicable.
+\emph{Learning Phase}
 
-Grassmann manifold $\pazocal{G}(m, d)$ is defined as the set of $m$-dimensional linear subspaces of $\mathbb{R}^{d}$. It is an $m(d-m)$-dimensional compact Riemannian manifold and can be derived as a quotient space of orthogonal groups $\pazocal{G}(m, d) = \pazocal{O}(d)/\pazocal{O}(m) \times \pazocal{O}(d - m)$,
-where $\pazocal{O}(m)$ is the group of $m \times m$ orthonormal matrices.
+\begin{enumerate}
+    \item Compute $d$-dimensional mean vectors for the different classes from the dataset.
+    \item Compute the inbetween-class and within-class scatter matrices.
+    \item Computer the eigenvectors and corresponding eigenvalues for the scatter matrices.
+    \item Sort the eigenvectors by decreasing eigenvalues and choose k eigenvectors with the largest eigenvalues to form a d×k dimensional matrix W
+\end{enumerate}
+
+\emph{Recognition Phase}
+
+\begin{enumerate}
+        \item Project the samples onto the new subsapce, YY=XX×WW (where XX is a n×d-dimensional matrix representing the n samples, and yy are the transformed n×k-dimensional samples in the new subspace).
+        \item Conduct classification using a classifier of choice (a simple K-Neighbors classifier is commonly used).
+\end{enumerate}
+
+
+\subsubsection{Grassmann Manifold and Grassmann Kernel}
+
+The Grassmann manifold $\pazocal{G}(m, d)$ is defined as the set of $m$-dimensional linear subspaces of $\mathbb{R}^{d}$. 
+
+%It is an $m(d-m)$-dimensional compact Riemannian manifold anid can be derived as a quotient space of orthogonal groups $\pazocal{G}(m, d) = \pazocal{O}(d)/\pazocal{O}(m) \times \pazocal{O}(d - m)$, where $\pazocal{O}(m)$ is the group of $m \times m$ orthonormal matrices.
 
 A Grassmann manifold can be embedded in a reproducing kernel Hilbert space by the use of a Grassmann kernel. In this case, the most popular kernel is the projection kernel $k_{p}$, which can be defined as $k_{p}(\pazocal{Y}_{1},\pazocal{Y}_{2}) = \sum_{j=1}^{m} \cos^{2} \theta_{j}$, which is homologous to the subspace similarity.
 %%\begin{equation}
@@ -99,28 +126,26 @@ We can measure the distance between two points on a Grassmann manifold by using 
 % \subsection{Algorithm of Grassmann Discriminant Analysis}
 % \label{sec:gda}
 
-We introduce a discriminatory mechanism to separate the classes of signals, which is the Grassmann discriminant analysis (GDA).
-Basically, GDA is conducted as kernel LDA with the Grassmann kernels.
 %Its predecessor, linear discriminant analysis (LDA)~\cite{fukunaga1990statistical}, followed by a K-NN classifier, is well known and has been successfully used for classification.
-We first outline the algorithm of linear discriminant analysis (LDA)~\cite{fukunaga1990statistical}.
-Let ${\mathbf{x}_{1}, \ldots, \mathbf{x}_{N}}$ be the data vectors and ${y_{1}, \ldots, y_{N}}$ $(y_{i} \in {1, \ldots, C})$ be the class labels.
-Each class $c$ has $N_{c}$ number of samples.
-Let $\mathbf{\mu}_{c} = \frac{1}{N_{c}}\sum_{i|y_{i} = c} \mathbf{x}_{i}$ be the mean of class $c$, and $\mathbf{\mu} = \frac{1}{N} \sum_{i} \mathbf{x}_{i}$ be the overall mean. LDA searches for the discriminant direction $\mathbf{w}$ which maximizes the Rayleigh quotient
-$Ra(\mathbf{w}) = \mathbf{w}'\mathbf{S}_{b}\mathbf{w}/\mathbf{w}'\mathbf{S}_{w}\mathbf{w}$ where $\mathbf{S}_{b}$ and $\mathbf{S}_{w}$ are the between-class and within-class covariance matrices respectively:
+% We first outline the algorithm of linear discriminant analysis (LDA)~\cite{fukunaga1990statistical}.
+% Let ${\mathbf{x}_{1}, \ldots, \mathbf{x}_{N}}$ be the data vectors and ${y_{1}, \ldots, y_{N}}$ $(y_{i} \in {1, \ldots, C})$ be the class labels.
+% Each class $c$ has $N_{c}$ number of samples.
+% Let $\mathbf{\mu}_{c} = \frac{1}{N_{c}}\sum_{i|y_{i} = c} \mathbf{x}_{i}$ be the mean of class $c$, and $\mathbf{\mu} = \frac{1}{N} \sum_{i} \mathbf{x}_{i}$ be the overall mean. LDA searches for the discriminant direction $\mathbf{w}$ which maximizes the Rayleigh quotient
+% $Ra(\mathbf{w}) = \mathbf{w}'\mathbf{S}_{b}\mathbf{w}/\mathbf{w}'\mathbf{S}_{w}\mathbf{w}$ where $\mathbf{S}_{b}$ and $\mathbf{S}_{w}$ are the between-class and within-class covariance matrices respectively:
 
 % \begin{align}
 %     \mathbf{S}_{b} = & \frac{1}{N} \sum_{c=1}^{C} N_{c}(\mathbf{\mu}_{c} - \mathbf{\mu})(\mathbf{\mu}_{c} - \mathbf{\mu})^{\top},                   \\
 %     \mathbf{S}_{w} = & \frac{1}{N} \sum_{c=1}^{C} \sum_{i|y_{i} = c} (\mathbf{x}_{i} - \mathbf{\mu}_{c})(\mathbf{x}_{i} - \mathbf{\mu}_{c})^{\top}.
 % \end{align}
 
-The optimal $\mathbf{w}$ is obtained from the largest eigenvector
-of $\mathbf{S}_{w}^{-1}\mathbf{S}_{b}$. Since $\mathbf{S}_{w}^{-1}\mathbf{S}_{b}$ has rank $C - 1$, there are $C - 1$ optima $\mathbf{W} = [ \mathbf{w}_{1}, \ldots, \mathbf{w}_{C-1} ]$.
-By projecting data onto the space spanned by $\mathbf{W}$, we
-achieve dimensionality reduction and feature extraction
-of data onto the most discriminant subspace.
+% The optimal $\mathbf{w}$ is obtained from the largest eigenvector
+% of $\mathbf{S}_{w}^{-1}\mathbf{S}_{b}$. Since $\mathbf{S}_{w}^{-1}\mathbf{S}_{b}$ has rank $C - 1$, there are $C - 1$ optima $\mathbf{W} = [ \mathbf{w}_{1}, \ldots, \mathbf{w}_{C-1} ]$.
+% By projecting data onto the space spanned by $\mathbf{W}$, we
+% achieve dimensionality reduction and feature extraction
+% of data onto the most discriminant subspace.
 
-Kernel LDA~\cite{scholkopft1999fisher,baudat2000generalized,li2001constructing} can be formulated by using the kernel trick as follows. Let $\Gamma: \mathbb{R}^ {d} \rightarrow \pazocal{F}$ be a non-linear map from the input space $\mathbb{R}^ {d}$ to a feature space $\pazocal{F}$,
-and $\Gamma = [\mathbf{\gamma}_{1},\ldots,\mathbf{\gamma}_{N}]$ be the feature matrix of the mapped training points $\mathbf{\gamma}_{i}$. Assuming $\mathbf{w}$ is a linear combination of those feature vectors, $\mathbf{w} = \mathbf{\Gamma}\mathbf{\alpha}$, we can use the kernel trick and rewrite the Rayleigh quotient in terms of $\mathbf{\alpha}$ as:
+% Kernel LDA~\cite{scholkopft1999fisher,baudat2000generalized,li2001constructing} can be formulated by using the kernel trick as follows. Let $\Gamma: \mathbb{R}^ {d} \rightarrow \pazocal{F}$ be a non-linear map from the input space $\mathbb{R}^ {d}$ to a feature space $\pazocal{F}$,
+% and $\Gamma = [\mathbf{\gamma}_{1},\ldots,\mathbf{\gamma}_{N}]$ be the feature matrix of the mapped training points $\mathbf{\gamma}_{i}$. Assuming $\mathbf{w}$ is a linear combination of those feature vectors, $\mathbf{w} = \mathbf{\Gamma}\mathbf{\alpha}$, we can use the kernel trick and rewrite the Rayleigh quotient in terms of $\mathbf{\alpha}$ as:
 
 \begin{eqnarray}
     Ra(\mathbf{\alpha}) &=& \frac{\mathbf{\alpha}^{\top}\mathbf{\Gamma}^{\top}\mathbf{S}_{b}\mathbf{\Gamma} \mathbf{\alpha}}{\mathbf{\alpha}^{\top}\mathbf{\Gamma} ^{\top}\mathbf{S}_{w}\mathbf{\Gamma} \mathbf{\alpha}} = \nonumber\\

@@ -13,12 +13,21 @@
 %===============================
 \usepackage{luatexja-fontspec} % Necessary for package to use Japanese in lualatex
 \usepackage{amsfonts}
+\usepackage{amssymb} % Real number stuff
 
 %===============================
 % Mathematics
 %===============================
 \usepackage{algorithm, algorithmic}
 \usepackage{amsmath}
+
+%===============================
+% Figures
+%==============================
+\usepackage{floatrow}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{caption,subcaption}
 
 %%【PDF, PostScript, JPEG, PNG等の画像の貼り込み】
 %% dvipdfmx を使う場合
@@ -32,8 +41,6 @@
 \usepackage{algorithm,algorithmic,refcount}
 \usepackage{calrsfs} % Calligraphic Letters
 \usepackage{xcolor}
-\usepackage{graphicx}
-\usepackage{subfig}
 \usepackage{enumitem}
 \usepackage[toc,page]{appendix}
 \usepackage{multicol}
@@ -161,14 +168,14 @@
 
 \section{Analytical Frameworks in Fencing}
 \import{sections/fencing/}{2-prior-work.tex}
-
+is introduced
 \section{Proposed Method}
 \import{sections/fencing/}{3-proposal.tex}
 
 \section{Experiments}
 \import{sections/fencing/}{4-experiments.tex}
 
-\section{Discussion}
+\section{Results and Discussion}
 \import{sections/fencing/}{5-discussion.tex}
 
 \chapter{Conclusion}
@@ -188,7 +195,7 @@
 \renewcommand{\bibname}{References}
 
 %% 参考文献に jbibtex を使う場合
-\bibliographystyle{junsrt}
+\bibliographystyle{unsrt}
 \bibliography{references}
 % [compile] jbibtex sample; platex sample; platex sample;
 
